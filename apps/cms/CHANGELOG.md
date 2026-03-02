@@ -1,5 +1,11 @@
 # saleor-app-cms
 
+## 2.14.0
+
+### Minor Changes
+
+- a1e76fba: Added support for Problems API. Now app tries to detected errors from connected platform and set Problem on Saleor instance, available for staff users.
+
 ## 2.13.9
 
 ### Patch Changes

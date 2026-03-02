@@ -1,5 +1,11 @@
 # saleor-app-search
 
+## 1.25.0
+
+### Minor Changes
+
+- 5b055b15: Added support for App Problems API. Now App will report problems that occur during its operations. These problems will be visible on the Dashboard.
+
 ## 1.24.13
 
 ### Patch Changes

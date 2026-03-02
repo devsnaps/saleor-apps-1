@@ -1,5 +1,11 @@
 # saleor-app-smtp
 
+## 1.6.2
+
+### Patch Changes
+
+- a8b4d896: Add better response errors to webhook responses
+
 ## 1.6.1
 
 ### Patch Changes

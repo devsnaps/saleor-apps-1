@@ -1,5 +1,11 @@
 # saleor-app-avatax
 
+## 1.22.0
+
+### Minor Changes
+
+- 49a13645: Added App Problems API support, which will report issues with app directly to Saleor/Dashboard
+
 ## 1.21.14
 
 ### Patch Changes
