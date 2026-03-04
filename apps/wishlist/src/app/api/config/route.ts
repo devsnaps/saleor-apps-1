@@ -10,7 +10,10 @@ import { saleorApp } from "../../../../saleor-app";
 import { env } from "../../../env";
 import { createLogger } from "../../../logger";
 import { withLoggerContext } from "../../../logger-context";
-import { createMetadataClient, createSettingsManager } from "../../../modules/wishlist/metadata-manager";
+import {
+  createMetadataClient,
+  createSettingsManager,
+} from "../../../modules/wishlist/metadata-manager";
 import {
   normalizeProvider,
   WISHLIST_CONFIG_KEYS,
@@ -19,16 +22,22 @@ import {
 
 const logger = createLogger("wishlistConfigurationHandler");
 
-const getConfig = async (settingsManager: ReturnType<typeof createSettingsManager>): Promise<WishlistConfig> => {
+const getConfig = async (
+  settingsManager: ReturnType<typeof createSettingsManager>,
+): Promise<WishlistConfig> => {
   const provider = normalizeProvider(
     (await settingsManager.get(WISHLIST_CONFIG_KEYS.provider)) ?? env.WISHLIST_REPOSITORY,
   );
   const dynamodbTableName =
-    (await settingsManager.get(WISHLIST_CONFIG_KEYS.dynamodbTableName)) ?? env.DYNAMODB_MAIN_TABLE_NAME ?? "";
+    (await settingsManager.get(WISHLIST_CONFIG_KEYS.dynamodbTableName)) ??
+    env.DYNAMODB_MAIN_TABLE_NAME ??
+    "";
   const dynamodbRegion =
     (await settingsManager.get(WISHLIST_CONFIG_KEYS.dynamodbRegion)) ?? env.AWS_REGION ?? "";
   const dynamodbEndpoint =
-    (await settingsManager.get(WISHLIST_CONFIG_KEYS.dynamodbEndpoint)) ?? env.DYNAMODB_ENDPOINT ?? "";
+    (await settingsManager.get(WISHLIST_CONFIG_KEYS.dynamodbEndpoint)) ??
+    env.DYNAMODB_ENDPOINT ??
+    "";
 
   return {
     provider,
@@ -89,7 +98,10 @@ const handler: NextAppRouterProtectedHandler = async (request, ctx) => {
         errorMessage: error instanceof Error ? error.message : "unknown",
       });
 
-      return NextResponse.json({ success: false, error: "Invalid configuration payload" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "Invalid configuration payload" },
+        { status: 400 },
+      );
     }
   }
 

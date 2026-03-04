@@ -54,21 +54,13 @@ export const env = createEnv({
     VERCEL_ENV: process.env.VERCEL_ENV,
     VERCEL_GIT_COMMIT_SHA: process.env.VERCEL_GIT_COMMIT_SHA,
     VERCEL_URL: process.env.VERCEL_URL,
-     
     WISHLIST_REPOSITORY: process.env.WISHLIST_REPOSITORY,
-     
     DYNAMODB_MAIN_TABLE_NAME: process.env.DYNAMODB_MAIN_TABLE_NAME,
-     
     DYNAMODB_ENDPOINT: process.env.DYNAMODB_ENDPOINT,
-     
     DYNAMODB_REQUEST_TIMEOUT_MS: process.env.DYNAMODB_REQUEST_TIMEOUT_MS,
-     
     DYNAMODB_CONNECTION_TIMEOUT_MS: process.env.DYNAMODB_CONNECTION_TIMEOUT_MS,
-     
     AWS_REGION: process.env.AWS_REGION,
-     
     AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-     
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
   },
   isServer: typeof window === "undefined" || process.env.NODE_ENV === "test",

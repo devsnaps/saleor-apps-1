@@ -14,7 +14,11 @@ if (typeof window === "undefined") {
   const { attachLoggerVercelRuntimeTransport } = require("@saleor/apps-logger/node");
 
   if (env.NODE_ENV === "production") {
-    attachLoggerVercelRuntimeTransport(rootLogger, packageJson.version, require("./logger-context").loggerContext);
+    attachLoggerVercelRuntimeTransport(
+      rootLogger,
+      packageJson.version,
+      require("./logger-context").loggerContext,
+    );
   }
 }
 

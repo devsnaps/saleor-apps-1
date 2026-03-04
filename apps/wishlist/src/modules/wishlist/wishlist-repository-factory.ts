@@ -12,7 +12,10 @@ interface GetWishlistRepositoryArgs {
   config: WishlistConfig;
 }
 
-export const getWishlistRepository = ({ scope, config }: GetWishlistRepositoryArgs): WishlistRepository => {
+export const getWishlistRepository = ({
+  scope,
+  config,
+}: GetWishlistRepositoryArgs): WishlistRepository => {
   if (config.provider === "dynamodb" && isDynamoConfigValid(config)) {
     return DynamoWishlistRepository.fromConfig({
       tableName: config.dynamodbTableName!,

@@ -94,11 +94,7 @@ async function mutateMetadata(
   return updatedMetadata.map((entry) => ({ key: entry.key, value: entry.value }));
 }
 
-async function deleteMetadata(
-  client: GraphQLClient,
-  appId: string,
-  keys: string[],
-): Promise<void> {
+async function deleteMetadata(client: GraphQLClient, appId: string, keys: string[]): Promise<void> {
   const { error, data } = await client
     .mutation(DELETE_APP_METADATA_MUTATION, {
       id: appId,

@@ -2,7 +2,11 @@ import { wishlistFilterSchema, wishlistItemSchema } from "./wishlist-item";
 import type { WishlistRepository } from "./wishlist-repository";
 
 export class WishlistService {
-  constructor(private repository: WishlistRepository) {}
+  private repository: WishlistRepository;
+
+  constructor(repository: WishlistRepository) {
+    this.repository = repository;
+  }
 
   async add(input: unknown) {
     const item = wishlistItemSchema.parse(input);

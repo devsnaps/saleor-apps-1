@@ -1,5 +1,10 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DeleteCommand, DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  DeleteCommand,
+  DynamoDBDocumentClient,
+  PutCommand,
+  QueryCommand,
+} from "@aws-sdk/lib-dynamodb";
 
 import type { WishlistFilter, WishlistItem } from "./wishlist-item";
 import type { WishlistRepository } from "./wishlist-repository";
@@ -51,12 +56,11 @@ type DynamoWishlistRecord = {
 };
 
 export class DynamoWishlistRepository implements WishlistRepository {
+  private tableName: string;
   private documentClient: DynamoDBDocumentClient;
 
-  constructor(
-    private tableName: string,
-    documentClient?: DynamoDBDocumentClient,
-  ) {
+  constructor(tableName: string, documentClient?: DynamoDBDocumentClient) {
+    this.tableName = tableName;
     this.documentClient =
       documentClient ??
       createDocumentClient({

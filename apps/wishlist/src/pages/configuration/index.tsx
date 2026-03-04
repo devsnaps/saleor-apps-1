@@ -33,7 +33,7 @@ export default function ConfigurationPage() {
       return;
     }
 
-    authenticatedFetch("/api/configuration", { method: "GET" })
+    authenticatedFetch("/api/config", { method: "GET" })
       .then(async (response) => {
         if (!response.ok) {
           throw new Error("Unable to load configuration");
@@ -47,7 +47,9 @@ export default function ConfigurationPage() {
         setDynamodbEndpoint(payload.data.dynamodbEndpoint || "");
       })
       .catch(() => {
-        setStatusMessage("Failed to load configuration. Check app permissions and installation status.");
+        setStatusMessage(
+          "Failed to load configuration. Check app permissions and installation status.",
+        );
       })
       .finally(() => setLoading(false));
   }, [authenticatedFetch, isDashboardContext]);
@@ -59,7 +61,7 @@ export default function ConfigurationPage() {
     setStatusMessage(null);
 
     try {
-      const response = await authenticatedFetch("/api/configuration", {
+      const response = await authenticatedFetch("/api/config", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

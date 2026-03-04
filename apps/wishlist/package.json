@@ -23,7 +23,6 @@
     "@saleor/apps-otel": "workspace:*",
     "@saleor/apps-shared": "workspace:*",
     "@saleor/macaw-ui": "catalog:",
-    "@sentry/cli": "catalog:",
     "@sentry/nextjs": "catalog:",
     "@t3-oss/env-nextjs": "catalog:",
     "@vercel/otel": "catalog:",

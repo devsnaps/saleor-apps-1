@@ -3,8 +3,14 @@ import { type NextRequest, NextResponse } from "next/server";
 import { saleorApp } from "../../../../../saleor-app";
 import { env } from "../../../../env";
 import { createLogger } from "../../../../logger";
-import { createMetadataClient, createSettingsManager } from "../../../../modules/wishlist/metadata-manager";
-import { normalizeProvider, WISHLIST_CONFIG_KEYS } from "../../../../modules/wishlist/wishlist-config";
+import {
+  createMetadataClient,
+  createSettingsManager,
+} from "../../../../modules/wishlist/metadata-manager";
+import {
+  normalizeProvider,
+  WISHLIST_CONFIG_KEYS,
+} from "../../../../modules/wishlist/wishlist-config";
 import { getWishlistRepository } from "../../../../modules/wishlist/wishlist-repository-factory";
 import { WishlistService } from "../../../../modules/wishlist/wishlist-service";
 
@@ -29,10 +35,13 @@ const resolveAuthToken = (authorization: string | null, authorizationBearer: str
 };
 
 const createWishlistService = async (request: NextRequest) => {
-  const saleorApiUrl = request.headers.get("saleor-api-url") ?? request.headers.get("x-saleor-api-url");
+  const saleorApiUrl =
+    request.headers.get("saleor-api-url") ?? request.headers.get("x-saleor-api-url");
 
   if (!saleorApiUrl) {
-    return { error: NextResponse.json({ error: "Missing saleor-api-url header" }, { status: 400 }) };
+    return {
+      error: NextResponse.json({ error: "Missing saleor-api-url header" }, { status: 400 }),
+    };
   }
 
   const incomingToken = resolveAuthToken(
@@ -48,7 +57,10 @@ const createWishlistService = async (request: NextRequest) => {
 
   if (!aplEntry) {
     return {
-      error: NextResponse.json({ error: "App is not registered for this Saleor instance" }, { status: 401 }),
+      error: NextResponse.json(
+        { error: "App is not registered for this Saleor instance" },
+        { status: 401 },
+      ),
     };
   }
 
