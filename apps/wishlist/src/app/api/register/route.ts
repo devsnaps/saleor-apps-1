@@ -1,11 +1,11 @@
-import { createAppRegisterHandler } from "@saleor/app-sdk/handlers/next";
-import { wrapWithLoggerContext } from "@saleor/apps-logger/node";
-import { withSpanAttributes } from "@saleor/apps-otel/src/with-span-attributes";
+import { createAppRegisterHandler } from "@saleor/app-sdk/handlers/next-app-router";
+import { withSpanAttributesAppRouter } from "@saleor/apps-otel/src/with-span-attributes";
+import { compose } from "@saleor/apps-shared/compose";
 
-import { saleorApp } from "../../../saleor-app";
-import { env } from "../../env";
-import { createLogger } from "../../logger";
-import { loggerContext } from "../../logger-context";
+import { saleorApp } from "../../../../saleor-app";
+import { env } from "../../../env";
+import { createLogger } from "../../../logger";
+import { withLoggerContext } from "../../../logger-context";
 
 const logger = createLogger("createAppRegisterHandler");
 const allowedUrlsPattern = env.ALLOWED_DOMAIN_PATTERN;
@@ -43,4 +43,4 @@ const handler = createAppRegisterHandler({
   },
 });
 
-export default wrapWithLoggerContext(withSpanAttributes(handler), loggerContext);
+export const POST = compose(withLoggerContext, withSpanAttributesAppRouter)(handler);

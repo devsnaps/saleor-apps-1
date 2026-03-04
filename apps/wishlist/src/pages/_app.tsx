@@ -1,6 +1,9 @@
 import "@saleor/macaw-ui/style";
 
 import { AppBridge, AppBridgeProvider } from "@saleor/app-sdk/app-bridge";
+import { RoutePropagator } from "@saleor/app-sdk/app-bridge/next";
+import { IframeProtectedFallback } from "@saleor/apps-shared/iframe-protected-fallback";
+import { IframeProtectedWrapper } from "@saleor/apps-shared/iframe-protected-wrapper";
 import { NoSSRWrapper } from "@saleor/apps-shared/no-ssr-wrapper";
 import { ThemeSynchronizer } from "@saleor/apps-shared/theme-synchronizer";
 import { Box, ThemeProvider } from "@saleor/macaw-ui";
@@ -12,12 +15,18 @@ function WishlistApp({ Component, pageProps }: AppProps) {
   return (
     <NoSSRWrapper>
       <ThemeProvider>
-        <AppBridgeProvider appBridgeInstance={appBridgeInstance}>
-          <ThemeSynchronizer />
-          <Box padding={10}>
-            <Component {...pageProps} />
-          </Box>
-        </AppBridgeProvider>
+        <IframeProtectedWrapper
+          allowedPathNames={["/"]}
+          fallback={<IframeProtectedFallback appName="Saleor Wishlist App" />}
+        >
+          <AppBridgeProvider appBridgeInstance={appBridgeInstance}>
+            <ThemeSynchronizer />
+            <RoutePropagator />
+            <Box padding={10}>
+              <Component {...pageProps} />
+            </Box>
+          </AppBridgeProvider>
+        </IframeProtectedWrapper>
       </ThemeProvider>
     </NoSSRWrapper>
   );

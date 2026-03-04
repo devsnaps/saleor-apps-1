@@ -1,6 +1,6 @@
 import { useAppBridge, useAuthenticatedFetch } from "@saleor/app-sdk/app-bridge";
 import { Box, Button, Input, Text } from "@saleor/macaw-ui";
-import { type FormEvent, useEffect, useMemo, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 
 type ProviderValue = "memory" | "dynamodb";
 
@@ -20,14 +20,6 @@ export default function ConfigurationPage() {
 
   const isDashboardContext = Boolean(appBridgeState?.ready);
 
-  const request = useMemo(() => {
-    if (isDashboardContext) {
-      return authenticatedFetch;
-    }
-
-    return null;
-  }, [isDashboardContext, authenticatedFetch]);
-
   const [provider, setProvider] = useState<ProviderValue>("memory");
   const [dynamodbTableName, setDynamodbTableName] = useState("");
   const [dynamodbRegion, setDynamodbRegion] = useState("");
@@ -37,14 +29,11 @@ export default function ConfigurationPage() {
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!request) {
-      setLoading(false);
-      setStatusMessage("This configuration page works only inside Saleor Dashboard.");
-
+    if (!isDashboardContext) {
       return;
     }
 
-    request("/api/configuration", { method: "GET" })
+    authenticatedFetch("/api/configuration", { method: "GET" })
       .then(async (response) => {
         if (!response.ok) {
           throw new Error("Unable to load configuration");
@@ -61,22 +50,16 @@ export default function ConfigurationPage() {
         setStatusMessage("Failed to load configuration. Check app permissions and installation status.");
       })
       .finally(() => setLoading(false));
-  }, [request]);
+  }, [authenticatedFetch, isDashboardContext]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    if (!request) {
-      setStatusMessage("Open this app from Saleor Dashboard to save configuration.");
-
-      return;
-    }
 
     setSaving(true);
     setStatusMessage(null);
 
     try {
-      const response = await request("/api/configuration", {
+      const response = await authenticatedFetch("/api/configuration", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -98,6 +81,19 @@ export default function ConfigurationPage() {
       setSaving(false);
     }
   };
+
+  if (!isDashboardContext) {
+    return (
+      <Box display="grid" gap={6}>
+        <Text as="h1" size={10}>
+          Saleor Wishlist App
+        </Text>
+        <Text as="p" size={6}>
+          This app can only be used within the Saleor Dashboard.
+        </Text>
+      </Box>
+    );
+  }
 
   if (loading) {
     return <Text>Loading configuration...</Text>;
@@ -122,7 +118,6 @@ export default function ConfigurationPage() {
           onChange={(event) =>
             setProvider(event.currentTarget.value === "dynamodb" ? "dynamodb" : "memory")
           }
-          disabled={!isDashboardContext}
         />
 
         <Input
@@ -130,7 +125,7 @@ export default function ConfigurationPage() {
           name="dynamodbTableName"
           value={dynamodbTableName}
           onChange={(event) => setDynamodbTableName(event.currentTarget.value)}
-          disabled={!isDashboardContext || provider !== "dynamodb"}
+          disabled={provider !== "dynamodb"}
         />
 
         <Input
@@ -138,7 +133,7 @@ export default function ConfigurationPage() {
           name="dynamodbRegion"
           value={dynamodbRegion}
           onChange={(event) => setDynamodbRegion(event.currentTarget.value)}
-          disabled={!isDashboardContext || provider !== "dynamodb"}
+          disabled={provider !== "dynamodb"}
         />
 
         <Input
@@ -146,11 +141,11 @@ export default function ConfigurationPage() {
           name="dynamodbEndpoint"
           value={dynamodbEndpoint}
           onChange={(event) => setDynamodbEndpoint(event.currentTarget.value)}
-          disabled={!isDashboardContext || provider !== "dynamodb"}
+          disabled={provider !== "dynamodb"}
         />
 
         <Box>
-          <Button type="submit" disabled={saving || !isDashboardContext} variant="primary">
+          <Button type="submit" disabled={saving} variant="primary">
             {saving ? "Saving..." : "Save configuration"}
           </Button>
         </Box>
