@@ -1,0 +1,46 @@
+{
+  "name": "saleor-app-wishlist",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "next build",
+    "check-types": "tsc",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "setup-dynamodb": "pnpm tsx --env-file-if-exists=.env ./scripts/setup-dynamodb.ts",
+    "start": "next start",
+    "test": "vitest",
+    "test:ci": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "catalog:",
+    "@aws-sdk/lib-dynamodb": "catalog:",
+    "@opentelemetry/semantic-conventions": "catalog:",
+    "@saleor/app-sdk": "link:../../node_modules/@saleor/app-sdk",
+    "@saleor/apps-logger": "workspace:*",
+    "@saleor/apps-otel": "workspace:*",
+    "@saleor/apps-shared": "workspace:*",
+    "@saleor/macaw-ui": "catalog:",
+    "@sentry/cli": "catalog:",
+    "@sentry/nextjs": "catalog:",
+    "@t3-oss/env-nextjs": "catalog:",
+    "@vercel/otel": "catalog:",
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@saleor/eslint-config-apps": "workspace:*",
+    "@saleor/typescript-config-apps": "workspace:*",
+    "@types/react": "18.2.5",
+    "@types/react-dom": "18.2.5",
+    "eslint": "catalog:",
+    "eslint-plugin-n": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
