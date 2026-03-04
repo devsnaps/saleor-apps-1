@@ -8,7 +8,6 @@
         "APL",
         "APP_API_BASE_URL",
         "APP_IFRAME_BASE_URL",
-        "FILE_APL_PATH",
         "MANIFEST_APP_ID",
         "NEXT_PUBLIC_SENTRY_DSN",
         "OTEL_ENABLED",
